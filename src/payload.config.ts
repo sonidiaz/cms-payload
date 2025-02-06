@@ -18,6 +18,7 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -83,7 +84,24 @@ export default buildConfig({
   globals: [Header, Footer],
   plugins: [
     ...plugins,
-    // storage-adapter-placeholder
+    s3Storage({
+      collections: {
+        media: {
+          disableLocalStorage: true, // Optional: disable local storage
+          prefix: 'media', // Optional: prefix all files with this path
+        },
+      },
+      bucket: process.env.R2_BUCKET!,
+      config: {
+        endpoint: process.env.R2_ENDPOINT!,
+        credentials: {
+          accessKeyId: process.env.R2_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
+        },
+        region: 'auto',
+        forcePathStyle: true,
+      },
+    }),
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
