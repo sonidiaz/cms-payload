@@ -1,6 +1,9 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
-
+import { es } from '@payloadcms/translations/languages/es'
+import { gal } from '@payloadcms/translations/languages/gal'
+// import { fr } from '@payloadcms/translations/languages/fr'
+// import localization from './i18n/localization'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -64,6 +67,18 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
+  i18n: {
+    fallbackLanguage: 'es',
+    supportedLanguages: { es },
+    translations: {
+      es: {
+        // override existing translation keys
+        general: {
+          dashboard: 'Inicio',
+        },
+      },
+    },
+  },
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
