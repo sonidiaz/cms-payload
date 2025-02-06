@@ -1,7 +1,6 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { es } from '@payloadcms/translations/languages/es'
-import { gal } from '@payloadcms/translations/languages/gal'
 // import { fr } from '@payloadcms/translations/languages/fr'
 // import localization from './i18n/localization'
 import sharp from 'sharp' // sharp-import
