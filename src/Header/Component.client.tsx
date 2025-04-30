@@ -30,11 +30,22 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="relative z-20  " {...(theme ? { 'data-theme': theme } : {})}>
+    <header className="fixed z-20 top-0 left-0 right-0  " {...(theme ? { 'data-theme': theme } : {})}>
       <div className="py-8 container flex justify-between">
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
+        <a
+            href="https://www.linkedin.com/company/asociacion-pratodo/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://www.amalab.es/_astro/linkedin.iKP4I5Sw.svg"
+              alt="linkedin"
+              className="w-8 h-8"
+            />
+          </a>
         {/* <HeaderNav data={data} /> */}
       </div>
     </header>
