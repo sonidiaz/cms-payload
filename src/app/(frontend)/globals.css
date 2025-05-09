@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'mensch-bold';
+  src: url('/fonts/mensch-bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'mensch-inline';
+  src: url('/fonts/mensch-inline.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'mensch-thin';
+  src: url('/fonts/mensch-thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'mensch';
+  src: url('/fonts/mensch.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @layer base {
   h1,
   h2,
@@ -11,6 +36,11 @@
   h6 {
     font-size: unset;
     font-weight: unset;
+    /* font-family: 'mensch-bold', Arial, sans-serif; */
+  }
+  h1{
+    font-family: 'mensch', Arial, sans-serif;
+
   }
 
   :root {
@@ -90,6 +120,7 @@
   }
   body {
     @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    /* font-family: 'mensch', Arial, sans-serif; */
   }
 }
 
