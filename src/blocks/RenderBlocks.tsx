@@ -7,6 +7,7 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { TwoColumnImageRichTextBlock } from '@/blocks/TwoColumnImageRichText/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -14,6 +15,7 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  twoColumnImageRichText: TwoColumnImageRichTextBlock,
 }
 
 export const RenderBlocks: React.FC<{
@@ -29,8 +31,13 @@ export const RenderBlocks: React.FC<{
         {blocks.map((block, index) => {
           const { blockType } = block
 
-          if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType]
+          // Normalize blockType to camelCase for lookup
+          const normalizedBlockType = blockType?.replace(/-([a-z])/g, (_, char) =>
+            char.toUpperCase(),
+          )
+
+          if (normalizedBlockType && normalizedBlockType in blockComponents) {
+            const Block = blockComponents[normalizedBlockType as keyof typeof blockComponents]
 
             if (Block) {
               return (
