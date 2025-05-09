@@ -8,6 +8,11 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import { GrFacebook, GrLinkedin, GrInstagram } from 'react-icons/gr';
+import { IoLogoYoutube } from "react-icons/io";
+import { AiFillFacebook } from "react-icons/ai";
+import { BiLogoInstagramAlt } from 'react-icons/bi';
+import { PiLinktreeLogoFill } from "react-icons/pi";
 
 interface HeaderClientProps {
   data: Header
@@ -30,22 +35,41 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="fixed z-20 top-0 left-0 right-0  " {...(theme ? { 'data-theme': theme } : {})}>
+    <header className="relative z-20 top-0 left-0 right-0  " {...(theme ? { 'data-theme': theme } : {})}>
       <div className="py-8 container flex justify-between">
         <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+          <Logo LogoTheme={'white'} loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
-        <a
+        <nav className="flex gap-2 items-center">
+          <a
             href="https://www.linkedin.com/company/asociacion-pratodo/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img
-              src="https://www.amalab.es/_astro/linkedin.iKP4I5Sw.svg"
-              alt="linkedin"
-              className="w-8 h-8"
-            />
+            <GrLinkedin color="white" className="w-7 h-7" />
           </a>
+          <a
+            href="https://www.instagram.com/prato_do/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GrInstagram color="white" className="w-7 h-7" />
+          </a>
+          <a
+            href="https://www.facebook.com/pratodoinnova"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <AiFillFacebook color="white" className="w-7 h-7" />
+          </a>
+          <a
+            href="https://www.youtube.com/@pratodo7673"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IoLogoYoutube color="white" className="w-7 h-7" />
+          </a>
+        </nav>
         {/* <HeaderNav data={data} /> */}
       </div>
     </header>

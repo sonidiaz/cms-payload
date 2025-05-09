@@ -8,37 +8,30 @@ import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 
+
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
 
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="mt-auto border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-row justify-between">
+    <footer className="mt-auto border-border text-black">
+      <div className="container py-8 gap-18 flex flex-col md:flex-row justify-between">
         <Link className="flex items-center" href="/">
-          <Logo />
+          <Logo LogoTheme={'dark'} />
         </Link>
 
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
+        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:w-[calc(100%/2)] mt-7 md:mt-0">
           {/* <ThemeSelector />
           <nav className="flex flex-col md:flex-row gap-4">
             {navItems.map(({ link }, i) => {
               return <CMSLink className="text-white" key={i} {...link} />
             })}
           </nav> */}
-          <a
-            href="https://www.linkedin.com/company/asociacion-pratodo/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://www.amalab.es/_astro/linkedin.iKP4I5Sw.svg"
-              alt="linkedin"
-              className="w-8 h-8"
-            />
-          </a>
+          <div className="flex flex-col ">
+            <p>Prato_DO é unha axencia independente sen ánimo de lucro, comprometida coa mellora da calidade de vida dende a alimentación, promovendo solucións creativas e rexenerativas en resposta aos retos sociais, económicos e ambientais.</p>
+            <CMSLink className="text-black pt-4 underline" appearance="inline" url="mailto:iniciativapratodo@gmail.com" label="Contacta escribíndonos a iniciativapratodo@gmail.com" />
+          </div>
         </div>
       </div>
     </footer>
