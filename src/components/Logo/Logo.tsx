@@ -5,6 +5,7 @@ interface Props {
   className?: string
   loading?: 'lazy' | 'eager'
   priority?: 'auto' | 'high' | 'low'
+  LogoTheme?: string
 }
 
 export const Logo = (props: Props) => {
@@ -17,13 +18,13 @@ export const Logo = (props: Props) => {
     /* eslint-disable @next/next/no-img-element */
     <img
       alt="Payload Logo"
-      width={200}
-      height={200}
+      width={300}
+      height={300}
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('max-w-[4rem] w-full shadow-md', className)}
-      src="prato_do_logo.jpeg"
+      className={clsx('max-w-[6rem] w-full', className)}
+      src={props.LogoTheme === 'dark' ? '/img/logo-black.png' : '/img/logo-white.png'}
     />
   )
 }
