@@ -8,11 +8,9 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
-import { GrFacebook, GrLinkedin, GrInstagram } from 'react-icons/gr';
-import { IoLogoYoutube } from "react-icons/io";
-import { AiFillFacebook } from "react-icons/ai";
-import { BiLogoInstagramAlt } from 'react-icons/bi';
-import { PiLinktreeLogoFill } from "react-icons/pi";
+import { GrLinkedin, GrInstagram } from 'react-icons/gr'
+import { IoLogoYoutube } from "react-icons/io"
+import { AiFillFacebook } from "react-icons/ai"
 
 interface HeaderClientProps {
   data: Header

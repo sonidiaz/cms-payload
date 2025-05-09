@@ -133,8 +133,7 @@ html[data-theme='light'] {
   opacity: initial;
 }
 
-.ama-overlay{
-  &:after{
+.ama-overlay:after{
     content: '';
     background: rgba(0, 0, 0, 0.4);
     position: absolute;
@@ -142,5 +141,4 @@ html[data-theme='light'] {
     left: 0;
     width: 100%;
     height: 100%;
-  }
 }
