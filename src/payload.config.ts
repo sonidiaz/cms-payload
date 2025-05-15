@@ -1,8 +1,8 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { es } from '@payloadcms/translations/languages/es'
-// import { fr } from '@payloadcms/translations/languages/fr'
-// import localization from './i18n/localization'
+import {es} from '@payloadcms/translations/languages/es'
+import {gl} from './i18n/translations/gl/gl'
+import localization from './i18n/localization'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -67,18 +67,6 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  i18n: {
-    fallbackLanguage: 'es',
-    supportedLanguages: { es },
-    translations: {
-      es: {
-        // override existing translation keys
-        general: {
-          dashboard: 'Inicio',
-        },
-      },
-    },
-  },
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
@@ -103,6 +91,18 @@ export default buildConfig({
       },
     }),
   ],
+  i18n: {
+    supportedLanguages: { es },
+    translations: {
+      es: {
+        // override existing translation keys
+        general: {
+          dashboard: 'Incio',
+        },
+      },
+    },
+  },
+  localization,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {
