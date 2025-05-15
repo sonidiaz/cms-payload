@@ -24,6 +24,16 @@ import { TwoColumnImageRichText } from '@/blocks/TwoColumnImageRichText/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
+  labels: {
+    singular  : {
+      es: 'Página',
+      gl: 'Páxina',
+    },
+    plural: {
+      es: 'Páginas',
+      gl: 'Páxinas',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -62,7 +72,12 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'title',
       type: 'text',
+      label: {
+        singular: 'Título',
+        plural: 'Títulos',
+      },
       required: true,
+      localized: true,
     },
     {
       type: 'tabs',
@@ -76,6 +91,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
+              localized: true,
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, TwoColumnImageRichText],
               required: true,
               admin: {
