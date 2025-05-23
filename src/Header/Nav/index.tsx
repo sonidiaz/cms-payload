@@ -7,31 +7,21 @@ import type { Header as HeaderType } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
-import { useLocale } from '@payloadcms/ui'
+// import { useTranslations } from 'next-intl'
+
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
-  const locale = useLocale()
-  console.log(locale)
+  // const t = useTranslations()
   return (
     <nav className="flex gap-3 items-center text-black">
       {navItems.map(({ link }, i) => {
         return <CMSLink key={i} {...link} appearance="link" />
       })}
       <Link href="/search">
-        <span className="sr-only">Search</span>
+       {/* <span className="sr-only">{t('search')}</span> */}
         <SearchIcon className="w-5 text-primary" />
       </Link>
-      <select
-        className="bg-white border border-gray-300 rounded-lg p-1 text-sm"
-        onChange={(e) => {
-          console.log(locale)
-        }}
-      >
-        <option value="es">Espa ol</option>
-        <option value="gl">Galego</option>
-      </select>
-
     </nav>
   )
 }

@@ -1,24 +1,30 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import React, { useEffect, useState, useTransition } from 'react'
 
 import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
-import { GrFacebook, GrLinkedin, GrInstagram } from 'react-icons/gr';
-import { IoLogoYoutube } from "react-icons/io";
-import { AiFillFacebook } from "react-icons/ai";
-import { BiLogoInstagramAlt } from 'react-icons/bi';
-import { PiLinktreeLogoFill } from "react-icons/pi";
+import { useLocale } from 'next-intl'
+import localization from '@/i18n/localization'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { TypedLocale } from 'payload'
+import { usePathname, useRouter } from '@/i18n/routing'
 
 interface HeaderClientProps {
-  data: Header
+  header: Header
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -35,43 +41,53 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="relative z-20 top-0 left-0 right-0  " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 container flex justify-between">
-        <Link href="/">
-          <Logo LogoTheme={'white'} loading="eager" priority="high" className="invert dark:invert-0" />
-        </Link>
-        <nav className="flex gap-2 items-center">
-          <a
-            href="https://www.linkedin.com/company/asociacion-pratodo/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GrLinkedin color="white" className="w-7 h-7" />
-          </a>
-          <a
-            href="https://www.instagram.com/prato_do/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <GrInstagram color="white" className="w-7 h-7" />
-          </a>
-          <a
-            href="https://www.facebook.com/pratodoinnova"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <AiFillFacebook color="white" className="w-7 h-7" />
-          </a>
-          <a
-            href="https://www.youtube.com/@pratodo7673"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <IoLogoYoutube color="white" className="w-7 h-7" />
-          </a>
-        </nav>
-        <HeaderNav data={data} />
-      </div>
+    <header
+      className="container relative z-20 py-8 flex justify-end gap-2"
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
+      <Link href="/" className="me-auto">
+        <Logo />
+      </Link>
+      <LocaleSwitcher />
+      <HeaderNav data={header} />
     </header>
+  )
+}
+
+function LocaleSwitcher() {
+  // inspired by https://github.com/amannn/next-intl/blob/main/examples/example-app-router/src/components/LocaleSwitcherSelect.tsx
+  const locale = useLocale()
+  const router = useRouter()
+  const [, startTransition] = useTransition()
+  const pathname = usePathname()
+  const params = useParams()
+
+  function onSelectChange(value: TypedLocale) {
+    startTransition(() => {
+      router.replace(
+        // @ts-expect-error -- TypeScript will validate that only known `params`
+        // are used in combination with a given `pathname`. Since the two will
+        // always match for the current route, we can skip runtime checks.
+        { pathname, params },
+        { locale: value },
+      )
+    })
+  }
+
+  return (
+    <Select onValueChange={onSelectChange} value={locale}>
+      <SelectTrigger className="w-auto text-sm bg-transparent gap-2 pl-0 md:pl-3 border-none">
+        <SelectValue placeholder="Theme" />
+      </SelectTrigger>
+      <SelectContent>
+        {localization.locales
+          .sort((a, b) => a.label.localeCompare(b.label)) // Ordenar por label
+          .map((locale) => (
+            <SelectItem value={locale.code} key={locale.code}>
+              {locale.label}
+            </SelectItem>
+          ))}
+      </SelectContent>
+    </Select>
   )
 }
