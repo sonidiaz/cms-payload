@@ -1,7 +1,7 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { es } from '@payloadcms/translations/languages/es'
-// import { fr } from '@payloadcms/translations/languages/fr'
+import {es} from '@payloadcms/translations/languages/es'
+import {gl} from './i18n/translations/gl/gl'
 import localization from './i18n/localization'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -36,7 +36,7 @@ export default buildConfig({
       beforeLogin: ['@/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
-      // beforeDashboard: ['@/heros/AdminHero/'],
+      // beforeDashboard: ['@/components/BeforeDashboard'],
       graphics: {
         Logo: '@/components/Logo',
         Icon: '@/components/Icon',
