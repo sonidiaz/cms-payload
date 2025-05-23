@@ -15,8 +15,7 @@ import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
-import { populateAuthors } from './hooks/populateAuthors'
-import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { revalidateDelete } from '../Posts/hooks/revalidatePost'
 
 import {
   MetaDescriptionField,
@@ -27,21 +26,30 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
 
-export const Posts: CollectionConfig<'posts'> = {
-  slug: 'posts',
+// Extender CollectionSlug para incluir 'projects'
+export type ExtendedCollectionSlug = 'projects' | 'pages' | 'posts' | 'media' | 'categories' | 'users';
+
+export const Projects: CollectionConfig = {
+  slug: 'projects',
+  labels: {
+    singular: {
+      es: 'Proyecto',
+      gl: 'Proxecto',
+    },
+    plural: {
+      es: 'Proyectos',
+      gl: 'Proxectos',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
     read: authenticatedOrPublished,
     update: authenticated,
   },
-  // This config controls what's populated by default when a post is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
   defaultPopulate: {
     title: true,
     slug: true,
-    categories: true,
     meta: {
       image: true,
       description: true,
@@ -53,7 +61,7 @@ export const Posts: CollectionConfig<'posts'> = {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
-          collection: 'posts',
+          collection: 'projects',
           req,
         })
 
@@ -63,7 +71,7 @@ export const Posts: CollectionConfig<'posts'> = {
     preview: (data, { req }) =>
       generatePreviewPath({
         slug: typeof data?.slug === 'string' ? data.slug : '',
-        collection: 'posts',
+        collection: 'projects',
         req,
       }),
     useAsTitle: 'title',
@@ -74,6 +82,10 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'text',
       required: true,
       localized: true,
+      label: {
+        es: 'Título',
+        gl: 'Título',
+      },
     },
     {
       type: 'tabs',
@@ -84,6 +96,11 @@ export const Posts: CollectionConfig<'posts'> = {
               name: 'heroImage',
               type: 'upload',
               relationTo: 'media',
+              required: true,
+              label: {
+                es: 'Imagen principal',
+                gl: 'Imaxe principal',
+              },
             },
             {
               name: 'content',
@@ -101,41 +118,43 @@ export const Posts: CollectionConfig<'posts'> = {
                   ]
                 },
               }),
-              label: false,
+              label: {
+                es: 'Contenido',
+                gl: 'Contido',
+              },
               required: true,
+            },
+            {
+              name: 'gallery',
+              type: 'array',
+              label: {
+                es: 'Galería de imágenes',
+                gl: 'Galería de imaxes',
+              },
+              fields: [
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                  label: {
+                    es: 'Imagen',
+                    gl: 'Imaxe',
+                  },
+                },
+                {
+                  name: 'caption',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    es: 'Leyenda',
+                    gl: 'Lenda',
+                  },
+                },
+              ],
             },
           ],
           label: 'Content',
-        },
-        {
-          fields: [
-            {
-              name: 'relatedPosts',
-              type: 'relationship',
-              admin: {
-                position: 'sidebar',
-              },
-              filterOptions: ({ id }) => {
-                return {
-                  id: {
-                    not_in: [id],
-                  },
-                }
-              },
-              hasMany: true,
-              relationTo: 'posts',
-            },
-            {
-              name: 'categories',
-              type: 'relationship',
-              admin: {
-                position: 'sidebar',
-              },
-              hasMany: true,
-              relationTo: 'categories',
-            },
-          ],
-          label: 'Meta',
         },
         {
           name: 'meta',
@@ -152,13 +171,9 @@ export const Posts: CollectionConfig<'posts'> = {
             MetaImageField({
               relationTo: 'media',
             }),
-
             MetaDescriptionField({}),
             PreviewField({
-              // if the `generateUrl` function is configured
               hasGenerateFn: true,
-
-              // field paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
@@ -187,50 +202,26 @@ export const Posts: CollectionConfig<'posts'> = {
       },
       localized: true,
     },
-    {
-      name: 'authors',
-      type: 'relationship',
-      admin: {
-        position: 'sidebar',
-      },
-      hasMany: true,
-      relationTo: 'users',
-    },
-    // This field is only used to populate the user data via the `populateAuthors` hook
-    // This is because the `user` collection has access control locked to protect user privacy
-    // GraphQL will also not return mutated user data that differs from the underlying schema
-    {
-      name: 'populatedAuthors',
-      type: 'array',
-      access: {
-        update: () => false,
-      },
-      admin: {
-        disabled: true,
-        readOnly: true,
-      },
-      fields: [
-        {
-          name: 'id',
-          type: 'text',
-        },
-        {
-          name: 'name',
-          type: 'text',
-        },
-      ],
-    },
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost],
-    afterRead: [populateAuthors],
+    afterChange: [async ({ doc }) => {
+      // Revalidar la página del proyecto
+      try {
+        const path = `/projects/${doc.slug}`;
+        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/revalidate?secret=${process.env.REVALIDATION_KEY}&path=${path}`);
+        return;
+      } catch (err) {
+        console.error(`Error revalidating path: ${err}`);
+      }
+    }],
     afterDelete: [revalidateDelete],
   },
+  
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 100,
       },
       schedulePublish: true,
     },
