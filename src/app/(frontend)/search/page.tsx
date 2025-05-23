@@ -2,20 +2,25 @@ import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+import { getPayload, TypedLocale } from 'payload'
 import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
+import { getTranslations } from 'next-intl/server'
 
 type Args = {
   searchParams: Promise<{
     q: string
   }>
+  params: {
+    locale: TypedLocale
+  }
 }
-export default async function Page({ searchParams: searchParamsPromise }: Args) {
+export default async function Page({ searchParams: searchParamsPromise, params: { locale } }: Args) {
   const { q: query } = await searchParamsPromise
   const payload = await getPayload({ config: configPromise })
+  const t = await getTranslations({ locale, namespace: 'Search' })
 
   const posts = await payload.find({
     collection: 'search',
@@ -64,7 +69,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
+          <h1 className="mb-8 lg:mb-16">{t('title')}</h1>
 
           <div className="max-w-[50rem] mx-auto">
             <Search />
@@ -73,16 +78,17 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </div>
 
       {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
+        <CollectionArchive posts={posts.docs as CardPostData[]} collection="posts" />
       ) : (
-        <div className="container">No results found.</div>
+        <div className="container">{t('noResults')}</div>
       )}
     </div>
   )
 }
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({ params: { locale } }: Args): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: 'Search' })
   return {
-    title: `Payload Website Template Search`,
+    title: t('metaTitle'),
   }
 }

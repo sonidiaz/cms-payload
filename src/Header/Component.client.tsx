@@ -70,7 +70,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <IoLogoYoutube color="white" className="w-7 h-7" />
           </a>
         </nav>
-        {/* <HeaderNav data={data} /> */}
+        <HeaderNav data={data} />
       </div>
     </header>
   )

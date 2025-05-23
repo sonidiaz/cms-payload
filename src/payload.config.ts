@@ -2,7 +2,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { es } from '@payloadcms/translations/languages/es'
 // import { fr } from '@payloadcms/translations/languages/fr'
-// import localization from './i18n/localization'
+import localization from './i18n/localization'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -13,6 +13,7 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
+import { Projects } from './collections/Projects'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -25,13 +26,21 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    meta: {
+      titleSuffix: '- Prato Do ',
+      description: 'Custom Description',
+    },
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
       beforeLogin: ['@/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
-      beforeDashboard: ['@/components/BeforeDashboard'],
+      // beforeDashboard: ['@/heros/AdminHero/'],
+      graphics: {
+        Logo: '@/components/Logo',
+        Icon: '@/components/Icon',
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -67,19 +76,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  i18n: {
-    fallbackLanguage: 'es',
-    supportedLanguages: { es },
-    translations: {
-      es: {
-        // override existing translation keys
-        general: {
-          dashboard: 'Inicio',
-        },
-      },
-    },
-  },
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Projects, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
@@ -103,6 +100,20 @@ export default buildConfig({
       },
     }),
   ],
+  i18n: {
+    defaultLanguage: 'gl',
+    // @ts-expect-error: disableValidation is not a valid option
+    supportedLanguages: { es, gl },
+    translations: {
+      es: {
+        // override existing translation keys
+        general: {
+          dashboard: 'Incio',
+        },
+      },
+    },
+  },
+  localization,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {

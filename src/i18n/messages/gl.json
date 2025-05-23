@@ -1,0 +1,30 @@
+{
+  "date-published": "Data de publicación",
+  "author": "Autor",
+  "page-not-found": "Non se atopou esta páxina.",
+  "go-home": "Ir a inicio",
+  "loading": "Cargando, por favor agarde...",
+  "posts": "Publicacións",
+  "post": "Publicación",
+  "showing": "Amosando",
+  "of": "de",
+  "search": "Buscar",
+  "dashboard": "Panel de control",
+  "previous": "Anterior",
+  "next": "Seguinte",
+  "more-pages": "Máis páxinas",
+  "Projects": {
+    "title": "Proxectos",
+    "metaTitle": "Os nosos Proxectos",
+    "metaDescription": "Explora a nosa colección de proxectos destacados",
+    "noProjects": "Non hai proxectos dispoñibles neste momento."
+  },
+  "Project": {
+    "gallery": "Galería de imaxes"
+  },
+  "Search": {
+    "title": "Busca",
+    "metaTitle": "Busca no sitio",
+    "noResults": "Non se atoparon resultados."
+  }
+}
