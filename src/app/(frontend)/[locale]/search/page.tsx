@@ -13,12 +13,16 @@ type Args = {
   searchParams: Promise<{
     q: string
   }>
-  params: {
+  params: Promise<{
     locale: TypedLocale
-  }
+  }>
 }
-export default async function Page({ searchParams: searchParamsPromise, params: { locale } }: Args) {
+export default async function Page({
+  searchParams: searchParamsPromise,
+  params: paramsPromise,
+}: Args) {
   const { q: query } = await searchParamsPromise
+  const { locale } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
   const t = await getTranslations({ locale, namespace: 'Search' })
 
@@ -86,9 +90,8 @@ export default async function Page({ searchParams: searchParamsPromise, params: 
   )
 }
 
-export async function generateMetadata({ params: { locale } }: Args): Promise<Metadata> {
-  const t = await getTranslations({ locale, namespace: 'Search' })
+export function generateMetadata(): Metadata {
   return {
-    title: t('metaTitle'),
+    title: `Payload Website Template Search`,
   }
 }

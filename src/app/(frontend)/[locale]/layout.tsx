@@ -18,15 +18,24 @@ import { getMessages } from 'next-intl/server'
 import { getServerSideURL } from '@/utilities/getURL'
 import { NextIntlClientProvider } from 'next-intl'
 
-
-export default async function RootLayout({ children, params }: { children: React.ReactNode, params: { locale: string } }) {
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: { locale: string }
+}) {
   const { locale = 'gl' } = await params
   const { isEnabled } = await draftMode()
 
   const messages = await getMessages()
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang={locale} suppressHydrationWarning>
+    <html
+      className={cn(GeistSans.variable, GeistMono.variable)}
+      lang={locale}
+      suppressHydrationWarning
+    >
       <head>
         <InitTheme />
         <link href="/favicon-pratodo.png" rel="icon" sizes="32x32" />
@@ -39,9 +48,9 @@ export default async function RootLayout({ children, params }: { children: React
                 preview: isEnabled,
               }}
             />
-            <Header locale={locale}/>
+            <Header locale={locale} />
             {children}
-            <Footer />
+            <Footer locale={locale} />
           </NextIntlClientProvider>
         </Providers>
       </body>

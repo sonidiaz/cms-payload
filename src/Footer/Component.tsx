@@ -8,9 +8,8 @@ import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 
-
-export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1, null)()
+export async function Footer({ locale }: { locale: any }) {
+  const footerData: Footer = await getCachedGlobal('footer', 1, locale)()
 
   const navItems = footerData?.navItems || []
 
@@ -29,8 +28,17 @@ export async function Footer() {
             })}
           </nav> */}
           <div className="flex flex-col ">
-            <p>Prato_DO é unha axencia independente sen ánimo de lucro, comprometida coa mellora da calidade de vida dende a alimentación, promovendo solucións creativas e rexenerativas en resposta aos retos sociais, económicos e ambientais.</p>
-            <CMSLink className="text-black pt-4 underline" appearance="inline" url="mailto:iniciativapratodo@gmail.com" label="Contacta escribíndonos a iniciativapratodo@gmail.com" />
+            <p>
+              Prato_DO é unha axencia independente sen ánimo de lucro, comprometida coa mellora da
+              calidade de vida dende a alimentación, promovendo solucións creativas e rexenerativas
+              en resposta aos retos sociais, económicos e ambientais.
+            </p>
+            <CMSLink
+              className="text-black pt-4 underline"
+              appearance="inline"
+              url="mailto:iniciativapratodo@gmail.com"
+              label="Contacta escribíndonos a iniciativapratodo@gmail.com"
+            />
           </div>
         </div>
       </div>
