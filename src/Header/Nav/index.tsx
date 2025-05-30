@@ -9,7 +9,6 @@ import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
 // import { useTranslations } from 'next-intl'
 
-
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
   // const t = useTranslations()
@@ -19,7 +18,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
         return <CMSLink key={i} {...link} appearance="link" />
       })}
       <Link href="/search">
-       {/* <span className="sr-only">{t('search')}</span> */}
+        {/* <span className="sr-only">{t('search')}</span> */}
         <SearchIcon className="w-5 text-primary" />
       </Link>
     </nav>
