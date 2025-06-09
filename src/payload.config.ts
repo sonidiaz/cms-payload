@@ -1,7 +1,7 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import {es} from '@payloadcms/translations/languages/es'
-import {gl} from './i18n/translations/gl/gl'
+import { es } from '@payloadcms/translations/languages/es'
+import { gl } from './i18n/translations/gl/gl'
 import localization from './i18n/localization'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
@@ -84,8 +84,15 @@ export default buildConfig({
     s3Storage({
       collections: {
         media: {
-          disableLocalStorage: true, // Optional: disable local storage
-          prefix: 'media', // Optional: prefix all files with this path
+          disableLocalStorage: process.env.NODE_ENV === 'production',
+          prefix: 'media',
+          generateFileURL: ({ filename, prefix }) => {
+            if (process.env.NODE_ENV === 'production') {
+              return `${process.env.R2_ENDPOINT}/${prefix}/${filename}`
+            }
+            // En desarrollo, usa la API local
+            return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/media/${filename}`
+          },
         },
       },
       bucket: process.env.R2_BUCKET!,
