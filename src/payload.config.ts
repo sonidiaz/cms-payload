@@ -84,15 +84,8 @@ export default buildConfig({
     s3Storage({
       collections: {
         media: {
-          disableLocalStorage: process.env.NODE_ENV === 'production',
+          disableLocalStorage: true,
           prefix: 'media',
-          generateFileURL: ({ filename, prefix }) => {
-            if (process.env.NODE_ENV === 'production') {
-              return `${process.env.R2_ENDPOINT}/${prefix}/${filename}`
-            }
-            // En desarrollo, usa la API local
-            return `${process.env.NEXT_PUBLIC_SERVER_URL}/api/media/${filename}`
-          },
         },
       },
       bucket: process.env.R2_BUCKET!,
