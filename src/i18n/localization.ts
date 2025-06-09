@@ -4,11 +4,11 @@ const localization = {
   locales: [
     {
       code: 'es',
-      label: 'Spanish (Español)',
+      label: 'ES',
     },
     {
       code: 'gl',
-      label: 'Galician (Galego)',
+      label: 'GL',
     },
   ],
 }
