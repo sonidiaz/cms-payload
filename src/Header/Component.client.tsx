@@ -42,14 +42,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
 
   return (
     <header
-      className="container relative z-20 py-8 flex justify-end gap-2"
+      className="container relative z-20 py-8 flex justify-end items-center gap-2"
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <Link href="/" className="me-auto">
         <Logo LogoTheme={'light'} />
       </Link>
-      <LocaleSwitcher />
       <HeaderNav data={header} />
+      <LocaleSwitcher />
     </header>
   )
 }
@@ -75,19 +75,41 @@ function LocaleSwitcher() {
   }
 
   return (
-    <Select onValueChange={onSelectChange} value={locale}>
-      <SelectTrigger className="w-auto text-sm bg-transparent gap-2 pl-0 md:pl-3 border-none">
-        <SelectValue placeholder="Theme" />
-      </SelectTrigger>
-      <SelectContent>
+    <div className="flex items-center gap-4">
+      <div className="md:flex gap-2">
         {localization.locales
-          .sort((a, b) => a.label.localeCompare(b.label)) // Ordenar por label
-          .map((locale) => (
-            <SelectItem value={locale.code} key={locale.code}>
-              {locale.label}
-            </SelectItem>
+          .sort((a, b) => a.label.localeCompare(b.label))
+          .map((loc) => (
+            <button
+              key={loc.code}
+              aria-label={loc.label}
+              onClick={() => onSelectChange(loc.code as TypedLocale)}
+              className={`px-2 py-1 text-sm rounded-lg transition-colors ${
+                locale === loc.code
+                  ? 'bg-white rounded- text-primary-foreground'
+                  : 'hover:bg-primary/10'
+              }`}
+            >
+              {loc.label}
+            </button>
           ))}
-      </SelectContent>
-    </Select>
+      </div>
+      <div className="hidden">
+        <Select onValueChange={onSelectChange} value={locale}>
+          <SelectTrigger className="w-auto text-sm bg-transparent gap-2 pl-0 md:pl-3 border-none">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {localization.locales
+              .sort((a, b) => a.label.localeCompare(b.label))
+              .map((loc) => (
+                <SelectItem value={loc.code} key={loc.code}>
+                  {loc.label}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
   )
 }
