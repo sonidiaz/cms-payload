@@ -11,18 +11,14 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 const nextConfig = {
   images: {
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL].map((item) => {
+      ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
+
         return {
           hostname: url.hostname,
           protocol: url.protocol.replace(':', ''),
         }
       }),
-      {
-        hostname: '211f387181d02cfddd6554857b6161d7.r2.cloudflarestorage.com',
-        protocol: 'https',
-        pathname: '/**',
-      }
     ],
   },
   reactStrictMode: true,
