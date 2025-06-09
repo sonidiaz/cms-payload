@@ -15,6 +15,7 @@ const collections: CollectionSlug[] = [
   'media',
   'pages',
   'posts',
+  'projects',
   'forms',
   'form-submissions',
   'search',
@@ -80,7 +81,7 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding media...`)
 
-  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
+  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer, imageHero1Buffer] = await Promise.all([
     fetchFileByURL(
       'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post1.webp',
     ),
@@ -92,6 +93,9 @@ export const seed = async ({
     ),
     fetchFileByURL(
       'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
+    ),
+    fetchFileByURL(
+      'https://www.amalab.es/_astro/projecto-dispersor-vieiro.Bo-WrM4l.jpg',
     ),
   ])
 
@@ -133,7 +137,11 @@ export const seed = async ({
       data: imageHero1,
       file: hero1Buffer,
     }),
-
+    payload.create({
+      collection: 'media',
+      data: imageHero1,
+      file: hero1Buffer,
+    }),
     payload.create({
       collection: 'categories',
       data: {

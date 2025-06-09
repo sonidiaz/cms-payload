@@ -1,18 +1,14 @@
 const localization = {
-  defaultLocale: 'fr',
+  defaultLocale: 'gl',
+  // fallback: true,
   locales: [
     {
       code: 'es',
-      label: 'Spanish (Español)',
-      Hero: 'Páginas',
+      label: 'ES',
     },
     {
-      code: 'fr',
-      label: 'French (France)',
-    },
-    {
-      code: 'de',
-      label: 'German (Germany)',
+      code: 'gl',
+      label: 'GL',
     },
   ],
 }

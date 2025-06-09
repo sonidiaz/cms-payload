@@ -12,5 +12,19 @@
   "dashboard": "Panel de control",
   "previous": "Anterior",
   "next": "Siguiente",
-  "more-pages": "Más páginas"
+  "more-pages": "Más páginas",
+  "Projects": {
+    "title": "Proyectos",
+    "metaTitle": "Nuestros Proyectos",
+    "metaDescription": "Explora nuestra colección de proyectos destacados",
+    "noProjects": "No hay proyectos disponibles en este momento."
+  },
+  "Project": {
+    "gallery": "Galería de imágenes"
+  },
+  "Search": {
+    "title": "Búsqueda",
+    "metaTitle": "Búsqueda en el sitio",
+    "noResults": "No se encontraron resultados."
+  }
 }

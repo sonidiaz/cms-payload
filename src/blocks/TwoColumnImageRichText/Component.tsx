@@ -1,7 +1,9 @@
 import React from 'react'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
-
+import { GrInstagram, GrLinkedin } from 'react-icons/gr'
+import { AiFillFacebook } from 'react-icons/ai'
+import { IoLogoYoutube } from 'react-icons/io5'
 interface Props {
   image?: string
   imageAlt?: string
@@ -24,12 +26,41 @@ export const TwoColumnImageRichTextBlock: React.FC<Props> = ({
           <Media
             resource={image}
             alt={imageAlt || ''}
-            className="max-w-full h-auto rounded-lg shadow-md object-cover"
+            className="w-[30%] justify-center flex h-auto rounded-lg object-cover"
           />
         )}
       </div>
       <div className="w-full md:w-1/2 flex flex-col justify-center prose max-w-none">
         <RichText data={richText} />
+        <div className="container mx-auto prose md:prose-md dark:prose-invert pt-4">
+          <span> Síguenos en nuestras redes sociales</span>
+          <div className="flex gap-2 pt-4">
+            <a
+              href="https://www.linkedin.com/company/asociacion-pratodo/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GrLinkedin color="black" className="w-7 h-7" />
+            </a>
+            <a href="https://www.instagram.com/prato_do/" target="_blank" rel="noopener noreferrer">
+              <GrInstagram color="black" className="w-7 h-7" />
+            </a>
+            <a
+              href="https://www.facebook.com/pratodoinnova"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <AiFillFacebook color="black" className="w-7 h-7" />
+            </a>
+            <a
+              href="https://www.youtube.com/@pratodo7673"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <IoLogoYoutube color="black" className="w-7 h-7" />
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   )
