@@ -12,7 +12,7 @@ import type { Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
-import PageClient from './page.client'
+import PageClient  from './page.client'
 import { TypedLocale } from 'payload'
 
 export async function generateStaticParams() {
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
     collection: 'projects',
     draft: false,
     limit: 1000,
-    overrideAccess: true,
+    overrideAccess: false,
   })
 
   const params = projects.docs.map(({ slug }) => {

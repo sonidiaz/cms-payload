@@ -21,7 +21,7 @@ export async function generateStaticParams() {
     collection: 'posts',
     draft: false,
     limit: 1000,
-    overrideAccess: true,
+    overrideAccess: false,
   })
 
   const params = posts.docs.map(({ slug }) => {
