@@ -17,17 +17,29 @@ import './globals.css'
 import { getMessages } from 'next-intl/server'
 import { getServerSideURL } from '@/utilities/getURL'
 import { NextIntlClientProvider } from 'next-intl'
+import { routing } from '@/i18n/routing'
+import { notFound } from 'next/navigation'
+import { setRequestLocale } from 'next-intl/server'
+import { TypedLocale } from 'payload'
+import localization from '@/i18n/localization'
 
-export default async function RootLayout({
-  children,
-  params,
-}: {
+type Args = {
   children: React.ReactNode
-  params: { locale: string }
-}) {
-  const { locale = 'gl' } = await params
-  const { isEnabled } = await draftMode()
+  params: Promise<{
+    locale: TypedLocale
+  }>
+}
+export default async function RootLayout({ children, params }: Args) {
+  // const { locale = 'gl' } = await params
+  const { locale } = await params
+  // const currentLocale = localization.locales.find((loc) => loc.code === locale)
 
+  if (!routing.locales.includes(locale as any)) {
+    notFound()
+  }
+  setRequestLocale(locale)
+
+  const { isEnabled } = await draftMode()
   const messages = await getMessages()
 
   return (
@@ -65,4 +77,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     creator: '@payloadcms',
   },
+}
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
 }
