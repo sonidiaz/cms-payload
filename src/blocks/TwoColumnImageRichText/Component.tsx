@@ -27,7 +27,7 @@ export const TwoColumnImageRichTextBlock: React.FC<Props> = ({
       </div>
       <div className="w-full md:w-1/2 flex flex-col justify-center prose max-w-none">
         <RichText data={richText} />
-        <div className="container mx-auto prose md:prose-md dark:prose-invert pt-4">
+        <div className="container mx-auto prose md:prose-md pt-4">
           <span> Síguenos en nuestras redes sociales</span>
           <div className="flex gap-2 pt-4">
             <a

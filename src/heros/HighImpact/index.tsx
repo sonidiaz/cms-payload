@@ -18,7 +18,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
   return (
     <div
       className="relative h-full flex items-center justify-center text-white py-32 ama-overlay"
-      data-theme="dark"
+      data-theme="light"
       style={{
         background: 'black',
         // @ts-ignore

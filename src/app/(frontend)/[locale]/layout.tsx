@@ -44,9 +44,10 @@ export default async function RootLayout({ children, params }: Args) {
 
   return (
     <html
-      className={cn(GeistSans.variable, GeistMono.variable, 'light')}
+      className={cn(GeistSans.variable, GeistMono.variable)}
       lang={locale}
       suppressHydrationWarning
+      data-theme="light"
     >
       <head>
         <InitTheme />
