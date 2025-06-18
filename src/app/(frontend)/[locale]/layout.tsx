@@ -49,7 +49,7 @@ export default async function RootLayout({ children, params }: Args) {
       suppressHydrationWarning
     >
       <head>
-        <InitTheme />
+        {/* <InitTheme /> */}
         <link href="/favicon-pratodo.png" rel="icon" sizes="32x32" />
       </head>
       <body>
