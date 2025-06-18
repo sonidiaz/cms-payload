@@ -15,7 +15,7 @@ import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
-import { revalidateDelete } from '../Posts/hooks/revalidatePost'
+import { revalidateDelete, revalidatePost } from '../Posts/hooks/revalidatePost'
 
 import {
   MetaDescriptionField,
@@ -27,9 +27,15 @@ import {
 import { slugField } from '@/fields/slug'
 
 // Extender CollectionSlug para incluir 'projects'
-export type ExtendedCollectionSlug = 'projects' | 'pages' | 'posts' | 'media' | 'categories' | 'users';
+// export type ExtendedCollectionSlug =
+//   | 'projects'
+//   | 'pages'
+//   | 'posts'
+//   | 'media'
+//   | 'categories'
+//   | 'users'
 
-export const Projects: CollectionConfig = {
+export const Projects: CollectionConfig<'projects'> = {
   slug: 'projects',
   labels: {
     singular: {
@@ -157,6 +163,36 @@ export const Projects: CollectionConfig = {
           label: 'Content',
         },
         {
+          fields: [
+            {
+              name: 'relatedPosts',
+              type: 'relationship',
+              admin: {
+                position: 'sidebar',
+              },
+              filterOptions: ({ id }) => {
+                return {
+                  id: {
+                    not_in: [id],
+                  },
+                }
+              },
+              hasMany: true,
+              relationTo: 'projects',
+            },
+            {
+              name: 'categories',
+              type: 'relationship',
+              admin: {
+                position: 'sidebar',
+              },
+              hasMany: true,
+              relationTo: 'categories',
+            },
+          ],
+          label: 'Meta',
+        },
+        {
           name: 'meta',
           label: 'SEO',
           fields: [
@@ -204,20 +240,12 @@ export const Projects: CollectionConfig = {
     },
     ...slugField(),
   ],
+
   hooks: {
-    afterChange: [async ({ doc }) => {
-      // Revalidar la página del proyecto
-      try {
-        const path = `/projects/${doc.slug}`;
-        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/revalidate?secret=${process.env.REVALIDATION_KEY}&path=${path}`);
-        return;
-      } catch (err) {
-        console.error(`Error revalidating path: ${err}`);
-      }
-    }],
+    afterChange: [revalidatePost],
     afterDelete: [revalidateDelete],
   },
-  
+
   versions: {
     drafts: {
       autosave: {

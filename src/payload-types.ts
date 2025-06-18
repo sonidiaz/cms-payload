@@ -461,18 +461,71 @@ export interface ArchiveBlock {
     [k: string]: unknown;
   } | null;
   populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'posts' | null;
+  relationTo?: ('posts' | 'projects') | null;
   categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
-    | {
-        relationTo: 'posts';
-        value: number | Post;
-      }[]
+    | (
+        | {
+            relationTo: 'posts';
+            value: number | Post;
+          }
+        | {
+            relationTo: 'projects';
+            value: number | Project;
+          }
+      )[]
     | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  heroImage: number | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  gallery?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  relatedPosts?: (number | Project)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -699,51 +752,6 @@ export interface TwoColumnImageRichTextBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'two-column-image-rich-text';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
- */
-export interface Project {
-  id: number;
-  title: string;
-  heroImage: number | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  gallery?:
-    | {
-        image: number | Media;
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  slug?: string | null;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1197,6 +1205,8 @@ export interface ProjectsSelect<T extends boolean = true> {
         caption?: T;
         id?: T;
       };
+  relatedPosts?: T;
+  categories?: T;
   meta?:
     | T
     | {
