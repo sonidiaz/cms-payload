@@ -20,6 +20,7 @@ const nextConfig = {
         }
       }),
     ],
+    domains: ['localhost', 'pratodo.org'],
   },
   reactStrictMode: true,
   redirects,
