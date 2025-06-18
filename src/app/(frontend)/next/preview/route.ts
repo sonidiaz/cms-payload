@@ -25,7 +25,7 @@ export async function GET(
 
   const previewSecret = searchParams.get('previewSecret')
 
-  if (previewSecret) {
+  if (!previewSecret) {
     return new Response('You are not allowed to preview this page', { status: 403 })
   } else {
     if (!path) {
