@@ -44,12 +44,12 @@ export default async function RootLayout({ children, params }: Args) {
 
   return (
     <html
-      className={cn(GeistSans.variable, GeistMono.variable)}
+      className={cn(GeistSans.variable, GeistMono.variable, 'light')}
       lang={locale}
       suppressHydrationWarning
     >
       <head>
-        {/* <InitTheme /> */}
+        <InitTheme />
         <link href="/favicon-pratodo.png" rel="icon" sizes="32x32" />
       </head>
       <body>
