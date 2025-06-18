@@ -17,8 +17,15 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
 
   return (
     <div
-      className="relative h-full  flex items-center justify-center text-white"
+      className="relative h-full flex items-center justify-center text-white py-32 ama-overlay"
       data-theme="dark"
+      style={{
+        background: 'black',
+        // @ts-ignore
+        backgroundImage: `url(${media?.url})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
     >
       <div className="container mb-8 z-10 relative flex items-center justify-center">
         <div className="max-w-[60.5rem] md:text-center">
@@ -38,11 +45,11 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           )}
         </div>
       </div>
-      <div className="min-h-[80vh] select-none ama-overlay">
+      {/* <div className="min-h-[80vh] select-none ama-overlay">
         {media && typeof media === 'object' && (
           <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
         )}
-      </div>
+      </div> */}
     </div>
   )
 }

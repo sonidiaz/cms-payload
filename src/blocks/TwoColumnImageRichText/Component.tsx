@@ -4,6 +4,7 @@ import RichText from '@/components/RichText'
 import { GrInstagram, GrLinkedin } from 'react-icons/gr'
 import { AiFillFacebook } from 'react-icons/ai'
 import { IoLogoYoutube } from 'react-icons/io5'
+import ImageMediaHTML from '@/components/Media/ImageMediaHTML'
 interface Props {
   image?: string
   imageAlt?: string
@@ -19,16 +20,10 @@ export const TwoColumnImageRichTextBlock: React.FC<Props> = ({
 }) => {
   return (
     <section
-      className={`w-full flex flex-col md:flex-row items-center gap-8 ${reverse ? 'md:flex-row-reverse' : ''}`}
+      className={`w-full flex flex-col md:flex-row justify-center items-center gap-8 ${reverse ? 'md:flex-row-reverse' : ''}`}
     >
-      <div className="w-full md:w-1/2 flex justify-center">
-        {image && (
-          <Media
-            resource={image}
-            alt={imageAlt || ''}
-            className="w-[30%] justify-center flex h-auto rounded-lg object-cover"
-          />
-        )}
+      <div className="w-[10rem] md:w-1/4 flex justify-center">
+        {image && <Media resource={image} />}
       </div>
       <div className="w-full md:w-1/2 flex flex-col justify-center prose max-w-none">
         <RichText data={richText} />

@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 interface TwoColumnImageRichTextProps {
-  imageSrc: string;
-  imageAlt?: string;
-  richText: React.ReactNode;
-  reverse?: boolean; // Para invertir columnas si se desea
-  className?: string;
+  imageSrc: string
+  imageAlt?: string
+  richText: React.ReactNode
+  reverse?: boolean // Para invertir columnas si se desea
+  className?: string
 }
 
 /**
@@ -25,8 +25,10 @@ const TwoColumnImageRichText: React.FC<TwoColumnImageRichTextProps> = ({
   className = '',
 }) => {
   return (
-    <section className={`w-full flex flex-col md:flex-row items-center gap-8 ${reverse ? 'md:flex-row-reverse' : ''} ${className}`}>
-      <div className="w-full md:w-1/2 flex justify-center">
+    <section
+      className={`w-full flex flex-col md:flex-row items-center gap-8 ${reverse ? 'md:flex-row-reverse' : ''} ${className}`}
+    >
+      <div className="w-[50%] md:w-1/2 flex justify-center">
         <img
           src={imageSrc}
           alt={imageAlt}
@@ -37,7 +39,7 @@ const TwoColumnImageRichText: React.FC<TwoColumnImageRichTextProps> = ({
         {richText}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default TwoColumnImageRichText;
+export default TwoColumnImageRichText
