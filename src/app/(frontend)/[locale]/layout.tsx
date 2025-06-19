@@ -50,6 +50,7 @@ export default async function RootLayout({ children, params }: Args) {
       data-theme="light"
     >
       <head>
+        <InitTheme />
         <link href="/favicon-pratodo.png" rel="icon" sizes="32x32" />
       </head>
       <body>
