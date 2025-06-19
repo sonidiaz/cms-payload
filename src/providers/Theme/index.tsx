@@ -7,6 +7,7 @@ import type { Theme, ThemeContextType } from './types'
 import canUseDOM from '@/utilities/canUseDOM'
 import { defaultTheme, getImplicitPreference, themeLocalStorageKey } from './shared'
 import { themeIsValid } from './types'
+import { trackSynchronousRequestDataAccessInDev } from 'next/dist/server/app-render/dynamic-rendering'
 
 const initialContext: ThemeContextType = {
   setTheme: () => null,
@@ -47,7 +48,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    document.documentElement.setAttribute('data-theme', themeToSet)
+    document.documentElement.setAttribute('data-theme', 'light')
     setThemeState(themeToSet)
   }, [])
 
